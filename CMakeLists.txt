@@ -17,6 +17,12 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        maze.h
+        maze.cpp
+        cell.h
+        cell.cpp
+        mouse.h
+        mouse.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
