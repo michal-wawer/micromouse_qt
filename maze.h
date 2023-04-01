@@ -9,14 +9,18 @@
 #include <filesystem>
 #include <QGraphicsRectItem>
 
+using namespace std;
+
 class Maze : public QGraphicsScene
 {
 public:
     Maze();
 
 private:
-    std::vector<Cell> cells; // lepiej wektor wektorow tiles, wtedy kazdy rzad bedzie wektorem czyli bedzie 16 rzedow i w kazdym rzedzie 16 komórek
+    vector<vector<Cell>> cells; // beter 2d matrix (vector of cells inside vector) - 16 x rows and 16 cells in each row
     void loadMazeFromFile();
+    void printMazeCells();
+    void paintMazeWalls();
 };
 
 #endif // MAZE_H

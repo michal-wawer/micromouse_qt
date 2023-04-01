@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+
 #include "mouse.h"
 #include <QGraphicsItemAnimation>
 #include <QGraphicsRectItem>
@@ -11,16 +12,14 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->algoComboBox->addItems({"lewa-strona", "prawa-strona", "random"});
+    ui->algoComboBox->setCurrentIndex(0);
 
     mazeBlock = new Maze();
     ui->mazeView->setScene(mazeBlock);
+
     Mouse *mouse = new Mouse();
-    mazeBlock->addItem(mouse); // tym tez mozna ogarnac dodanie scian
-
-//    QGraphicsRectItem *item = new QGraphicsRectItem(QRectF(0, 0, 30, 30));
-    //item->setPos(0, 0);
-//    mazeBlock->addItem(item);
-
+    mazeBlock->addItem(mouse); // adding walls can be done with something like this
 
     mouse->moveRight();
 }

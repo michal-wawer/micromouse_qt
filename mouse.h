@@ -3,6 +3,7 @@
 
 #include <QGraphicsItem>
 
+
 class Mouse : public QObject, public QGraphicsItem
 {
     Q_OBJECT

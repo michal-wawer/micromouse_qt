@@ -1,6 +1,8 @@
 #include "cell.h"
 
-Cell::Cell(std::vector<int> values) {
+Cell::Cell(){}
+
+Cell::Cell(vector<int> values) {
     this->x = values.at(0);
     this->y = values.at(1);
     this->upperWall = values.at(2);
@@ -10,9 +12,34 @@ Cell::Cell(std::vector<int> values) {
 }
 
 int Cell::getX() {
-    return x;
+    return this->x;
 }
 
 int Cell::getY() {
-    return y;
+    return this->y;
+}
+
+string Cell::toString()
+{
+    return '[' + to_string(this->x) + ", " + to_string(this->y)  + "](";
+}
+
+bool Cell::getUpperWall()
+{
+    return this->upperWall;
+}
+
+bool Cell::getBottomWall()
+{
+    return this->bottomWall;
+}
+
+bool Cell::getRightWall()
+{
+    return this->rightWall;
+}
+
+bool Cell::getLeftWall()
+{
+    return this->leftWall;
 }

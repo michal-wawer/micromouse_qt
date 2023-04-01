@@ -1,8 +1,7 @@
 #include "mouse.h"
-#include<QtGui>
-#include<QGraphicsView>
+#include <QtGui>
+#include <QGraphicsView>
 #include <stdlib.h>
-
 
 Mouse::Mouse(QGraphicsItem* parent) : QObject(), QGraphicsItem(parent)
 {
@@ -15,14 +14,14 @@ QRectF Mouse::boundingRect() const {
 
 void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     painter->setBrush(Qt::yellow);
-    painter->drawRoundedRect(0, 0, 30, 30, 5, 5);
+    painter->drawRoundedRect(0, 0, 30, 30, 20, 20);
 }
 
 void Mouse::moveRight() {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(1000); // Czas trwania animacji w milisekundach
-    animation->setStartValue(QPointF(0, 0)); // Początkowa pozycja elementu //  mouse->pos()
-    animation->setEndValue(QPointF(30, 0)); // Końcowa pozycja elementu
+    animation->setDuration(1000); // time of animation in ms
+    animation->setStartValue(QPointF(0, 0)); // start position //  mouse->pos()
+    animation->setEndValue(QPointF(30, 0)); // end position
     animation->start();
 
 //    moveBy(30, 0);
