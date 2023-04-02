@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 
 #include "mouse.h"
+#include "righthandrule.h"
 #include <QGraphicsItemAnimation>
 #include <QGraphicsRectItem>
 #include <QTimeLine>
@@ -12,16 +13,17 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->algoComboBox->addItems({"lewa-strona", "prawa-strona", "random"});
+    ui->algoComboBox->addItems({"Left", "Right", "FloodFill"});
     ui->algoComboBox->setCurrentIndex(0);
 
     mazeBlock = new Maze();
     ui->mazeView->setScene(mazeBlock);
 
     Mouse *mouse = new Mouse();
-    mazeBlock->addItem(mouse); // adding walls can be done with something like this
+    mazeBlock->addItem(mouse);
 
-    mouse->moveRight();
+    RightHandRule *algo = new RightHandRule();
+    algo->run(mouse);
 }
 
 MainWindow::~MainWindow()

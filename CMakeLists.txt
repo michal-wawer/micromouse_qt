@@ -23,6 +23,10 @@ set(PROJECT_SOURCES
         cell.cpp
         mouse.h
         mouse.cpp
+        algorythm.h
+        algorythm.cpp
+        righthandrule.h
+        righthandrule.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
