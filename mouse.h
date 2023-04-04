@@ -1,8 +1,9 @@
 #ifndef MOUSE_H
 #define MOUSE_H
 
+#include "directions.h"
+#include <QPropertyAnimation>
 #include <QGraphicsItem>
-
 
 class Mouse : public QObject, public QGraphicsItem
 {
@@ -12,10 +13,9 @@ class Mouse : public QObject, public QGraphicsItem
 
 public:
     Mouse(QGraphicsItem* parent = nullptr);
-    void moveForward();
-    void turnLeft();
-    void turnRight();
-    void wait(int ms);
+    QPropertyAnimation* moveForward();
+    QPropertyAnimation* turnLeft();
+    QPropertyAnimation* turnRight();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -24,7 +24,7 @@ protected:
 private:
     int x;
     int y;
-    char direction;
+    Direction direction;
 };
 
 #endif // MOUSE_H

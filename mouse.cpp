@@ -1,13 +1,14 @@
-#include "mouse.h"
-#include <QtGui>
 #include <QGraphicsView>
 #include <stdlib.h>
+#include "directions.h"
+#include "mouse.h"
 
 Mouse::Mouse(QGraphicsItem* parent) : QObject(), QGraphicsItem(parent)
 {
    //setFlag(QGraphicsItem::ItemIsFocusable);
     this->x = 0;
     this->y = 0;
+    this->direction = Direction::RIGHT;
 }
 
 QRectF Mouse::boundingRect() const {
@@ -16,42 +17,53 @@ QRectF Mouse::boundingRect() const {
 
 void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     QPixmap pixmap("C:\\Users\\mwawe\\Documents\\micromouse_qt_project\\robot.png");
-//    this->setTransform(QTransform().translate(this->boundingRect().center().x(), this->boundingRect().center().y())); // poprawa rotacji (zeby robila sie w jednym miejscu)
     painter->drawPixmap(5, 5, 20, 20, pixmap);
-//    painter->rotate(90);
+    this->setTransformOriginPoint(this->boundingRect().center());
 }
 
-void Mouse::moveForward() {
-    QPropertyAnimation *animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(1000); // time of animation in ms
-    animation->setStartValue(QPointF(0, 0)); // start position //  mouse->pos()
-    animation->setEndValue(QPointF(30, 0)); // end position
-    animation->start();
+QPropertyAnimation* Mouse::moveForward() {
+    QPropertyAnimation* animation = new QPropertyAnimation(this, "pos");
+    animation->setDuration(1000);
+    animation->setStartValue(QPointF(this->x * 30, this->y * 30));
 
-//    wait(1000);
+    switch(this->direction) {
+        case Direction::UPPER:
+            this->y--;
+            break;
+        case Direction::RIGHT:
+            this->x++;
+            break;
+        case Direction::BOTTOM:
+            this->y++;
+            break;
+        case Direction::LEFT:
+            this->x--;
+            break;
+    }
 
-// to bedzie move forward i trzeba dodac zmienna x y i kierunek kontrolujace,
-    // na podstawie kierunku tobic ruch
-//    moveBy(30, 0);
+    animation->setEndValue(QPointF(this->x * 30, this->y * 30));
+
+    return animation;
 }
 
-void Mouse::turnRight() {       
-   QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
-   animation->setDuration(10000); // Czas trwania animacji w milisekundach
-   animation->setStartValue(0);
-   animation->setEndValue(90.0);
+QPropertyAnimation* Mouse::turnRight() {
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
+    animation->setDuration(1000);
+    animation->setStartValue(0);
+    animation->setEndValue(90.0);
 
-//   this->setTransformOriginPoint(0, 0);
+    this->direction = rotateRightMap.at(this->direction);
 
-   animation->start();
-
-//   wait(1000);
+    return animation;
 }
 
-void Mouse::wait( int ms ) {
-   QElapsedTimer timer;
-   timer.start();
+QPropertyAnimation* Mouse::turnLeft() {
+    QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
+    animation->setDuration(1000);
+    animation->setStartValue(0);
+    animation->setEndValue(-90.0);
 
-   while ( timer.elapsed() < ms )
-       QCoreApplication::processEvents();
+    this->direction = rotateLeftMap.at(this->direction);
+
+    return animation;
 }

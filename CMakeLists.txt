@@ -27,6 +27,8 @@ set(PROJECT_SOURCES
         algorythm.cpp
         righthandrule.h
         righthandrule.cpp
+        directions.h
+        directions.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

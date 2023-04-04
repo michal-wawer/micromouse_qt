@@ -1,4 +1,5 @@
 #include "righthandrule.h"
+#include <QSequentialAnimationGroup>
 
 RightHandRule::RightHandRule()
 {
@@ -7,6 +8,12 @@ RightHandRule::RightHandRule()
 
 void RightHandRule::run(Mouse* mouse)
 {
-    mouse->moveForward();
-    mouse->turnRight();
+    QSequentialAnimationGroup *group = new QSequentialAnimationGroup;
+
+    for (int i = 0; i < 1; i++) {
+        group->addAnimation(mouse->moveForward());
+        group->addAnimation(mouse->turnRight());
+        group->addAnimation(mouse->moveForward());
+    }
+    group->start();
 }
