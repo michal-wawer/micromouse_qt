@@ -3,10 +3,11 @@
 #include "directions.h"
 #include "mouse.h"
 
-Mouse::Mouse(QGraphicsItem* parent) : QObject(), QGraphicsItem(parent)
+Mouse::Mouse(Maze* maze, QGraphicsItem* parent) : QObject(), QGraphicsItem(parent)
 {
    //setFlag(QGraphicsItem::ItemIsFocusable);
-    this->x = 0;
+    this->maze = maze;
+    this->x = 0; // TODO: walidacja zeby nie przeszlo poza pole
     this->y = 0;
     this->direction = Direction::RIGHT;
 }
@@ -66,4 +67,64 @@ QPropertyAnimation* Mouse::turnLeft() {
     this->direction = rotateLeftMap.at(this->direction);
 
     return animation;
+}
+
+bool Mouse::isWallOnFront()
+{
+    switch(this->direction) {
+        case Direction::UPPER:
+            return this->maze->getCells()[this->x][this->y].getUpperWall();
+            break;
+        case Direction::RIGHT:
+            return this->maze->getCells()[this->x][this->y].getRightWall();
+            break;
+        case Direction::BOTTOM:
+            return this->maze->getCells()[this->x][this->y].getBottomWall();
+            break;
+        case Direction::LEFT:
+            return this->maze->getCells()[this->x][this->y].getLeftWall();
+            break;
+    }
+
+    return true;
+}
+
+bool Mouse::isWallOnLeft()
+{
+    switch(this->direction) {
+        case Direction::UPPER:
+            return this->maze->getCells()[this->x][this->y].getLeftWall();
+            break;
+        case Direction::RIGHT:
+            return this->maze->getCells()[this->x][this->y].getUpperWall();
+            break;
+        case Direction::BOTTOM:
+            return this->maze->getCells()[this->x][this->y].getRightWall();
+            break;
+        case Direction::LEFT:
+            return this->maze->getCells()[this->x][this->y].getBottomWall();
+            break;
+    }
+
+    return true;
+}
+
+bool Mouse::isWallOnRight()
+{
+    switch(this->direction) {
+        case Direction::UPPER:
+            return this->maze->getCells()[this->x][this->y].getRightWall();
+            break;
+        case Direction::RIGHT:
+            return this->maze->getCells()[this->x][this->y].getBottomWall();
+            break;
+        case Direction::BOTTOM:
+            return this->maze->getCells()[this->x][this->y].getLeftWall();
+            break;
+        case Direction::LEFT:
+            return this->maze->getCells()[this->x][this->y].getUpperWall();
+            break;
+    }
+
+    return true;
 }

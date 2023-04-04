@@ -2,6 +2,7 @@
 #define MOUSE_H
 
 #include "directions.h"
+#include "maze.h"
 #include <QPropertyAnimation>
 #include <QGraphicsItem>
 
@@ -12,10 +13,13 @@ class Mouse : public QObject, public QGraphicsItem
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation ) // NOTIFY rotationChanged
 
 public:
-    Mouse(QGraphicsItem* parent = nullptr);
+    Mouse(Maze* maze, QGraphicsItem* parent = nullptr);
     QPropertyAnimation* moveForward();
     QPropertyAnimation* turnLeft();
     QPropertyAnimation* turnRight();
+    bool isWallOnFront();
+    bool isWallOnLeft();
+    bool isWallOnRight();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -25,6 +29,7 @@ private:
     int x;
     int y;
     Direction direction;
+    Maze* maze;
 };
 
 #endif // MOUSE_H

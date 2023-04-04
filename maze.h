@@ -15,6 +15,7 @@ class Maze : public QGraphicsScene
 {
 public:
     Maze();
+    vector<vector<Cell>> getCells();
 
 private:
     vector<vector<Cell>> cells; // beter 2d matrix (vector of cells inside vector) - 16 x rows and 16 cells in each row

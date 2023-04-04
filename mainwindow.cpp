@@ -16,10 +16,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->algoComboBox->addItems({"Left", "Right", "FloodFill"});
     ui->algoComboBox->setCurrentIndex(0);
 
-    mazeBlock = new Maze();
+    Maze* mazeBlock = new Maze();
     ui->mazeView->setScene(mazeBlock);
 
-    Mouse *mouse = new Mouse();
+    Mouse *mouse = new Mouse(mazeBlock);
     mazeBlock->addItem(mouse);
 
     RightHandRule *algo = new RightHandRule();

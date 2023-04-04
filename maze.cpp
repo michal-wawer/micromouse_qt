@@ -113,5 +113,9 @@ void Maze::paintMazeWalls()
         x = 0;
         y += cellSize;
     }
+}
 
+vector<vector<Cell>> Maze::getCells()
+{
+    return this->cells;
 }

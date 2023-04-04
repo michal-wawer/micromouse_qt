@@ -15,5 +15,6 @@ void RightHandRule::run(Mouse* mouse)
         group->addAnimation(mouse->turnRight());
         group->addAnimation(mouse->moveForward());
     }
+
     group->start();
 }
