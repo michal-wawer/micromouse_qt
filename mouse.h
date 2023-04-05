@@ -17,9 +17,12 @@ public:
     QPropertyAnimation* moveForward();
     QPropertyAnimation* turnLeft();
     QPropertyAnimation* turnRight();
+    QPropertyAnimation* turnBack();
     bool isWallOnFront();
     bool isWallOnLeft();
     bool isWallOnRight();
+    bool isFinished();
+    vector<Direction> possibleDirections();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -30,6 +33,8 @@ private:
     int y;
     Direction direction;
     Maze* maze;
+    int currentRotation;
+    Cell currentCell;
 };
 
 #endif // MOUSE_H

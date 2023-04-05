@@ -1,25 +1,25 @@
-#include "righthandrule.h"
+#include "lefthandrule.h"
 #include <QSequentialAnimationGroup>
 
-RightHandRule::RightHandRule()
+LeftHandRule::LeftHandRule()
 {
 
 }
 
-void RightHandRule::run(Mouse* mouse)
+void LeftHandRule::run(Mouse* mouse)
 {
     QSequentialAnimationGroup *group = new QSequentialAnimationGroup;
 
-//    for (int i = 0; i < 110; i++) {
+//    for (int i = 0; i < 115; i++) {
     while (!mouse->isFinished()) {
-        if (!mouse->isWallOnRight()) {
-            group->addAnimation(mouse->turnRight());
+        if (!mouse->isWallOnLeft()) {
+            group->addAnimation(mouse->turnLeft());
         } else {
             if (!mouse->isWallOnFront()) {
 
             } else {
-                if (!mouse->isWallOnLeft()) {
-                    group->addAnimation(mouse->turnLeft());
+                if (!mouse->isWallOnRight()) {
+                    group->addAnimation(mouse->turnRight());
                 } else {
                     group->addAnimation(mouse->turnBack());
                 }

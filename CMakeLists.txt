@@ -27,6 +27,8 @@ set(PROJECT_SOURCES
         algorythm.cpp
         righthandrule.h
         righthandrule.cpp
+        lefthandrule.h
+        lefthandrule.cpp
         directions.h
         directions.cpp
 )

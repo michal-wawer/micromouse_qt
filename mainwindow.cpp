@@ -3,6 +3,7 @@
 
 #include "mouse.h"
 #include "righthandrule.h"
+#include "lefthandrule.h"
 #include <QGraphicsItemAnimation>
 #include <QGraphicsRectItem>
 #include <QTimeLine>
@@ -23,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
     mazeBlock->addItem(mouse);
 
     RightHandRule *algo = new RightHandRule();
+//    LeftHandRule *algo = new LeftHandRule();
     algo->run(mouse);
 }
 

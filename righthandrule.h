@@ -2,7 +2,6 @@
 #define RIGHTHANDRULE_H
 
 #include "algorythm.h"
-#include "mouse.h"
 
 class RightHandRule : public Algorythm
 {

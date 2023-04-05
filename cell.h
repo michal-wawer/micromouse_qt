@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include "directions.h"
 
 using namespace std;
 

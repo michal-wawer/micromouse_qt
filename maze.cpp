@@ -119,3 +119,21 @@ vector<vector<Cell>> Maze::getCells()
 {
     return this->cells;
 }
+
+bool Maze::isInCenter(int x, int y)
+{
+//    int upperCenterPoint = MAZE_SIZE / 2;
+//    int lowerCenterPoint = upperCenterPoint--;
+
+    int x_min = 7;
+    int x_max = 8;
+    int y_min = 7;
+    int y_max = 8;
+
+    if (x >= x_min && x <= x_max
+            && y >= y_min &&  y <= y_max) {
+        return true;
+    }
+
+    return false;
+}
