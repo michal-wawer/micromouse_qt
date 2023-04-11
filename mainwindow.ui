@@ -30,11 +30,11 @@
      <number>1</number>
     </property>
    </widget>
-   <widget class="QPushButton" name="Start">
+   <widget class="QPushButton" name="startButton">
     <property name="geometry">
      <rect>
       <x>530</x>
-      <y>460</y>
+      <y>420</y>
       <width>221</width>
       <height>24</height>
      </rect>
@@ -59,14 +59,17 @@
      <string>Algorithm type</string>
     </property>
    </widget>
-   <widget class="QSlider" name="horizontalSlider">
+   <widget class="QSlider" name="speedSlider">
     <property name="geometry">
      <rect>
       <x>530</x>
-      <y>410</y>
+      <y>380</y>
       <width>221</width>
       <height>16</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>1</number>
     </property>
     <property name="orientation">
      <enum>Qt::Horizontal</enum>
@@ -76,13 +79,13 @@
     <property name="geometry">
      <rect>
       <x>530</x>
-      <y>390</y>
-      <width>121</width>
+      <y>360</y>
+      <width>171</width>
       <height>16</height>
      </rect>
     </property>
     <property name="text">
-     <string>Animation speed:</string>
+     <string>Animation speed: (slow -&gt; fast)</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">
@@ -96,6 +99,19 @@
     </property>
     <property name="text">
      <string>Algorithm type:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="resetButton">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>460</y>
+      <width>221</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset</string>
     </property>
    </widget>
   </widget>

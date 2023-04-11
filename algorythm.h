@@ -3,6 +3,11 @@
 
 #include "mouse.h"
 
+enum ALGORYTHM_TYPE {
+    RIGHT_HAND,
+    LEFT_HAND
+};
+
 class Algorythm
 {
 public:

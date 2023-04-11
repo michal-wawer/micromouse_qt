@@ -6,8 +6,6 @@
 
 using namespace std;
 
-const int ANIMATION_SPEED = 100;
-
 Mouse::Mouse(Maze* maze, QGraphicsItem* parent) : QObject(), QGraphicsItem(parent)
 {
    //setFlag(QGraphicsItem::ItemIsFocusable);
@@ -33,7 +31,7 @@ void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 QPropertyAnimation* Mouse::moveForward() {
     cout << "x:" << this->x << " y:" << this->y << " rotation:" << to_string(this->currentRotation) << endl;
     QPropertyAnimation* animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(ANIMATION_SPEED);
+    animation->setDuration(this->speed);
     animation->setStartValue(QPointF(this->x * 30, this->y * 30));
 
     switch(this->direction) {
@@ -60,7 +58,7 @@ QPropertyAnimation* Mouse::moveForward() {
 
 QPropertyAnimation* Mouse::turnRight() {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
-    animation->setDuration(ANIMATION_SPEED);
+    animation->setDuration(this->speed);
     animation->setStartValue(this->currentRotation);
     this->currentRotation += 90.0;
     animation->setEndValue(this->currentRotation);
@@ -72,7 +70,7 @@ QPropertyAnimation* Mouse::turnRight() {
 
 QPropertyAnimation* Mouse::turnLeft() {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
-    animation->setDuration(ANIMATION_SPEED);
+    animation->setDuration(this->speed);
     animation->setStartValue(this->currentRotation);
     this->currentRotation -= 90.0;
     animation->setEndValue(this->currentRotation);
@@ -85,7 +83,7 @@ QPropertyAnimation* Mouse::turnLeft() {
 QPropertyAnimation* Mouse::turnBack()
 {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
-    animation->setDuration(ANIMATION_SPEED);
+    animation->setDuration(this->speed * 2);
     animation->setStartValue(this->currentRotation);
     this->currentRotation -= 180.0;
     animation->setEndValue(this->currentRotation);
@@ -180,4 +178,9 @@ vector<Direction> Mouse::possibleDirections()
  bool Mouse::isFinished()
  {
      return this->maze->isInCenter(this->x, this->y);
+ }
+
+ void Mouse::setSpeed(int speed)
+ {
+     this->speed = speed;
  }

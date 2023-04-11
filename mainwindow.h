@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "maze.h"
+#include "controller.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +18,12 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    Maze *mazeBlock;
+    Controller simulationController;
+    void runAnimation();
+    void resetMouse();
+
+public slots:
+    void changeAlgo(int index);
+    void changeSpeed(int speed);
 };
 #endif // MAINWINDOW_H

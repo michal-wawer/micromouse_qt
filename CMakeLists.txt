@@ -31,6 +31,8 @@ set(PROJECT_SOURCES
         lefthandrule.cpp
         directions.h
         directions.cpp
+        controller.h
+        controller.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

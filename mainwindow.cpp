@@ -1,9 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-#include "mouse.h"
-#include "righthandrule.h"
-#include "lefthandrule.h"
+#include "controller.h"
 #include <QGraphicsItemAnimation>
 #include <QGraphicsRectItem>
 #include <QTimeLine>
@@ -17,19 +15,54 @@ MainWindow::MainWindow(QWidget *parent)
     ui->algoComboBox->addItems({"Left", "Right", "FloodFill"});
     ui->algoComboBox->setCurrentIndex(0);
 
-    Maze* mazeBlock = new Maze();
-    ui->mazeView->setScene(mazeBlock);
+    this->simulationController = Controller();
+    ui->mazeView->setScene(simulationController.getMaze());
+    this->changeAlgo(ui->algoComboBox->currentIndex());
+    this->changeSpeed(ui->speedSlider->value());
 
-    Mouse *mouse = new Mouse(mazeBlock);
-    mazeBlock->addItem(mouse);
+    connect(ui->startButton, &QPushButton::released, this, &MainWindow::runAnimation);
+    connect(ui->resetButton, &QPushButton::released, this, &MainWindow::resetMouse);
+    connect(ui->algoComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(changeAlgo(int)));
+    connect(ui->speedSlider, SIGNAL(valueChanged(int)), this, SLOT(changeSpeed(int)));
 
-    RightHandRule *algo = new RightHandRule();
-//    LeftHandRule *algo = new LeftHandRule();
-    algo->run(mouse);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::changeSpeed(int speed)
+{
+    this->simulationController.getMouse()->setSpeed(-speed+100);
+}
+
+void MainWindow::changeAlgo(int index)
+{
+    switch(index) {
+        case 0:
+            this->simulationController.setAlgorythm(ALGORYTHM_TYPE::LEFT_HAND);
+            break;
+
+        case 1:
+            this->simulationController.setAlgorythm(ALGORYTHM_TYPE::RIGHT_HAND);
+            break;
+
+        case 2:
+
+            break;
+    }
+}
+
+void MainWindow::runAnimation()
+{
+    this->simulationController.execute();
+}
+
+void MainWindow::resetMouse()
+{
+    this->simulationController.reset();
+    this->changeSpeed(ui->speedSlider->value());
+}
+
 

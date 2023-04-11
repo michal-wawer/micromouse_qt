@@ -23,6 +23,7 @@ public:
     bool isWallOnRight();
     bool isFinished();
     vector<Direction> possibleDirections();
+    void setSpeed(int speed);
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -35,6 +36,7 @@ private:
     Maze* maze;
     int currentRotation;
     Cell currentCell;
+    int speed;
 };
 
 #endif // MOUSE_H
