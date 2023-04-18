@@ -15,7 +15,8 @@ Mouse::Mouse(Maze* maze, QGraphicsItem* parent) : QObject(), QGraphicsItem(paren
     this->y = 0; // row
     this->direction = Direction::RIGHT;
     this->currentRotation = 0;
-    this->currentCell = this->maze->getCells()[0][0];
+    this->currentCell = &this->maze->getCell(0, 0);
+    this->prevVisitedCell = nullptr;
 }
 
 QRectF Mouse::boundingRect() const {
@@ -29,8 +30,11 @@ void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 }
 
 QPropertyAnimation* Mouse::moveForward() {
-    cout << "x:" << this->x << " y:" << this->y << " rotation:" << to_string(this->currentRotation) << endl;
+    cout << "Przed moveForward = x:" << this->x << " y:" << this->y << " rotation:" << to_string(this->currentRotation) << endl;
     QPropertyAnimation* animation = new QPropertyAnimation(this, "pos");
+
+    this->prevVisitedCell = &this->maze->getCell(this->x, this->y);//this->currentCell;
+
     animation->setDuration(this->speed);
     animation->setStartValue(QPointF(this->x * 30, this->y * 30));
 
@@ -51,8 +55,8 @@ QPropertyAnimation* Mouse::moveForward() {
 
     animation->setEndValue(QPointF(this->x * 30, this->y * 30));
 
-    this->currentCell = this->maze->getCells()[this->y][this->x];
-
+    this->currentCell = &this->maze->getCell(this->x, this->y);// this->maze->getCell(this->y, this->x);
+    cout << "Po moveForward = x:" << this->x << " y:" << this->y << " rotation:" << to_string(this->currentRotation) << endl;
     return animation;
 }
 
@@ -97,16 +101,16 @@ bool Mouse::isWallOnFront()
 {
     switch(this->direction) {
         case Direction::UPPER:
-            return this->currentCell.getUpperWall();
+            return this->currentCell->getUpperWall();
             break;
         case Direction::RIGHT:
-            return this->currentCell.getRightWall();
+            return this->currentCell->getRightWall();
             break;
         case Direction::BOTTOM:
-            return this->currentCell.getBottomWall();
+            return this->currentCell->getBottomWall();
             break;
         case Direction::LEFT:;
-            return this->currentCell.getLeftWall();
+            return this->currentCell->getLeftWall();
             break;
     }
 
@@ -117,16 +121,16 @@ bool Mouse::isWallOnLeft()
 {
     switch(this->direction) {
         case Direction::UPPER:
-            return this->currentCell.getLeftWall();
+            return this->currentCell->getLeftWall();
             break;
         case Direction::RIGHT:
-            return this->currentCell.getUpperWall();
+            return this->currentCell->getUpperWall();
             break;
         case Direction::BOTTOM:
-            return this->currentCell.getRightWall();
+            return this->currentCell->getRightWall();
             break;
         case Direction::LEFT:
-            return this->currentCell.getBottomWall();
+            return this->currentCell->getBottomWall();
             break;
     }
 
@@ -137,16 +141,16 @@ bool Mouse::isWallOnRight()
 {
     switch(this->direction) {
         case Direction::UPPER:
-            return this->currentCell.getRightWall();
+            return this->currentCell->getRightWall();
             break;
         case Direction::RIGHT:
-            return this->currentCell.getBottomWall();
+            return this->currentCell->getBottomWall();
             break;
         case Direction::BOTTOM:
-            return this->currentCell.getLeftWall();
+            return this->currentCell->getLeftWall();
             break;
         case Direction::LEFT:
-            return this->currentCell.getUpperWall();
+            return this->currentCell->getUpperWall();
             break;
     }
 
@@ -157,19 +161,19 @@ vector<Direction> Mouse::possibleDirections()
 {
     vector<Direction> result;
 
-    if (this->currentCell.getUpperWall()) {
+    if (this->currentCell->getUpperWall()) {
         result.push_back(Direction::UPPER);
     }
 
-    if (this->currentCell.getBottomWall()) {
+    if (this->currentCell->getBottomWall()) {
         result.push_back(Direction::BOTTOM);
     }
 
-    if (this->currentCell.getRightWall()) {
+    if (this->currentCell->getRightWall()) {
         result.push_back(Direction::RIGHT);
     }
 
-    if (this->currentCell.getLeftWall()) {
+    if (this->currentCell->getLeftWall()) {
         result.push_back(Direction::LEFT);
     }
     return result;
@@ -183,4 +187,73 @@ vector<Direction> Mouse::possibleDirections()
  void Mouse::setSpeed(int speed)
  {
      this->speed = speed;
+ }
+
+ //*******************************************
+ // only for floodfill testing
+ //*******************************************
+ bool Mouse::getFrontWall(int x, int y) {
+    Cell cell = this->maze->getCell(x, y);
+//    cout << "[" << this->x << "," << this->y << "]" << cell.toString() << endl;
+    return cell.getUpperWall();
+ }
+
+ bool Mouse::getLeftWall(int x, int y) {
+     Cell cell = this->maze->getCell(x, y);
+//     cout << "[" << this->x << "," << this->y << "]" << cell.toString() << endl;
+     return cell.getLeftWall();
+ }
+
+ bool Mouse::getRightWall(int x, int y) {
+     Cell cell = this->maze->getCell(x, y);
+//     cout << "[" << this->x << "," << this->y << "]" << cell.toString() << endl;
+     return cell.getRightWall();
+ }
+
+ bool Mouse::getBottomWall(int x, int y) {
+     Cell cell = this->maze->getCell(x, y);
+//     cout << "[" << this->x << "," << this->y << "]" << cell.toString() << endl;
+     return cell.getBottomWall();
+}
+
+
+ void Mouse::setCellAsVisited() {
+//     cout << "Ustawiam jako aktywne " << this->currentCell->getX() << "," << this->currentCell->getY() << endl;
+    this->currentCell->setVisited(true);
+ }
+
+ bool Mouse::isCurrentCellVisited() {
+    return this->currentCell->getVisited();
+ }
+
+ void Mouse::setFloodfillValueForCurrentCell(int value) {
+    return this->currentCell->setFloodfillValue(value);
+ }
+
+ int Mouse::getFloodfillValueForCurrentCell() {
+     return this->currentCell->getFloodfillValue();
+ }
+
+ Cell Mouse::getCell(int x, int y) {
+     return this->maze->getCell(x, y);
+ }
+
+ Direction Mouse::getCurrentDirection() {
+     return this->direction;
+ }
+
+ int Mouse::getX() {
+    return this->x;
+ }
+
+ int Mouse::getY() {
+    return this->y;
+ }
+
+ Cell* Mouse::getPrevVisitedCell() {
+    return this->prevVisitedCell;
+ }
+
+ void Mouse::positionComparsion() {
+     cout << "getX/Y = [" << this->x << "," << this->y << "] | currentCell = [" << this->currentCell->getX() << "," << this->currentCell->getY() << "]" << endl;
  }

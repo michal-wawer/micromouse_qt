@@ -33,6 +33,8 @@ set(PROJECT_SOURCES
         directions.cpp
         controller.h
         controller.cpp
+        floodfill.h
+        floodfill.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

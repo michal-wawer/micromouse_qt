@@ -10,7 +10,6 @@ void RightHandRule::run(Mouse* mouse)
 {
     QSequentialAnimationGroup *group = new QSequentialAnimationGroup;
 
-//    for (int i = 0; i < 110; i++) {
     while (!mouse->isFinished()) {
         if (!mouse->isWallOnRight()) {
             group->addAnimation(mouse->turnRight());

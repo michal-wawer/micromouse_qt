@@ -25,6 +25,24 @@ public:
     vector<Direction> possibleDirections();
     void setSpeed(int speed);
 
+    // Only for floodfill testing
+    bool getFrontWall(int x, int y);
+    bool getLeftWall(int x, int y);
+    bool getRightWall(int x, int y);
+    bool getBottomWall(int x, int y);
+
+    void setCellAsVisited();
+    bool isCurrentCellVisited();
+    void setFloodfillValueForCurrentCell(int value);
+    int getFloodfillValueForCurrentCell();
+
+    Cell getCell(int x, int y);
+    Direction getCurrentDirection();
+    int getX();
+    int getY();
+    Cell* getPrevVisitedCell();
+    void positionComparsion();
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
@@ -35,8 +53,9 @@ private:
     Direction direction;
     Maze* maze;
     int currentRotation;
-    Cell currentCell;
+    Cell* currentCell;
     int speed;
+    Cell* prevVisitedCell;
 };
 
 #endif // MOUSE_H

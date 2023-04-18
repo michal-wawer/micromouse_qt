@@ -19,7 +19,11 @@ public:
     bool getBottomWall();
     bool getRightWall();
     bool getLeftWall();
-
+    // for floodfill
+    void setVisited(bool value);
+    bool getVisited();
+    void setFloodfillValue(int value);
+    int getFloodfillValue();
 private:
     int x; // 0-15 (16x16) or 0-31 (32x32)
     int y; // 0-15 (16x16) or 0-31 (32x32)
@@ -27,6 +31,9 @@ private:
     bool bottomWall;
     bool leftWall;
     bool rightWall;
+    // for floodfill
+    bool visited;
+    int floodfillValue;
 };
 
 #endif // CELL_H

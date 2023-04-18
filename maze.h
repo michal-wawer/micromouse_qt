@@ -16,6 +16,7 @@ class Maze : public QGraphicsScene
 public:
     Maze();
     vector<vector<Cell>> getCells();
+    Cell& getCell(int x, int y);
     bool isInCenter(int x, int y);
 
 private:

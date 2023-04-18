@@ -17,6 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->simulationController = Controller();
     ui->mazeView->setScene(simulationController.getMaze());
+
+    // disable moving maze window when mouse moves
+    ui->mazeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->mazeView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // set default values for controller
     this->changeAlgo(ui->algoComboBox->currentIndex());
     this->changeSpeed(ui->speedSlider->value());
 
@@ -34,7 +40,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeSpeed(int speed)
 {
-    this->simulationController.getMouse()->setSpeed(-speed+100);
+    this->simulationController.getMouse()->setSpeed(-speed+100); // moze zrobic ta funkcje w controllerze
 }
 
 void MainWindow::changeAlgo(int index)
@@ -49,7 +55,7 @@ void MainWindow::changeAlgo(int index)
             break;
 
         case 2:
-
+            this->simulationController.setAlgorythm(ALGORYTHM_TYPE::FLOODFILL);
             break;
     }
 }

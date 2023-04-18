@@ -1,4 +1,7 @@
 #include "controller.h"
+#include "righthandrule.h"
+#include "lefthandrule.h"
+#include "floodfill.h"
 
 Controller::Controller()
 {
@@ -26,9 +29,13 @@ void Controller::setAlgorythm(ALGORYTHM_TYPE algo)
             cout << "RightHand algo set" << endl;
             break;
 
-       case ALGORYTHM_TYPE::LEFT_HAND:
+        case ALGORYTHM_TYPE::LEFT_HAND:
             this->algo = new LeftHandRule();
             cout << "LeftHand algo set" << endl;
+            break;
+        case ALGORYTHM_TYPE::FLOODFILL:
+            this->algo = new Floodfill();
+            cout << "floodfill algo set" << endl;
             break;
     }
 }

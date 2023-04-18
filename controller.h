@@ -4,8 +4,6 @@
 #include "mouse.h"
 #include "maze.h"
 #include "algorythm.h"
-#include "righthandrule.h"
-#include "lefthandrule.h"
 
 class Controller
 {
@@ -21,7 +19,6 @@ private:
     Mouse* mouse;
     Maze* maze;
     Algorythm* algo;
-
 };
 
 #endif // CONTROLLER_H

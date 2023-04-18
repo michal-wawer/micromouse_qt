@@ -5,7 +5,8 @@
 
 enum ALGORYTHM_TYPE {
     RIGHT_HAND,
-    LEFT_HAND
+    LEFT_HAND,
+    FLOODFILL
 };
 
 class Algorythm

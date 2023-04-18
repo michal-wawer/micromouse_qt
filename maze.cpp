@@ -36,7 +36,7 @@ void Maze::loadMazeFromFile()
                 cellData.push_back(stoi(singleCellVariable));
             }
 
-            this->cells[i][j] = (Cell(cellData));
+            this->cells[cellData.at(1)][cellData.at(0)] = (Cell(cellData)); // [i][j]
 
             cellData.clear();
             ss.clear();
@@ -57,9 +57,9 @@ void Maze::printMazeCells()
 {
     for (int i = 0; i < this->cells.size(); i++)
     {
-        for (int j = 0; j < this->cells[i].size(); j++)
+        for (int j = 0; j < this->cells[i].size(); j++) // zastapic MAZE_SIZE
         {
-            cout << this->cells[i][j].toString() << " ";
+            cout << this->cells[j][i].toString() << " ";
         }
         cout << endl;
     }
@@ -67,6 +67,7 @@ void Maze::printMazeCells()
 
 void Maze::paintMazeWalls()
 {
+    printMazeCells();
     // print 2d grid
     int cellSize = MAZE_WIDTH / MAZE_SIZE; // rozmiar jednego kwadratu
     for (int x=cellSize; x<MAZE_WIDTH; x+=cellSize)
@@ -87,22 +88,22 @@ void Maze::paintMazeWalls()
 
     for (int i = 0; i < this->cells.size(); i++)
     {
-        for (int j = 0; j < this->cells[i].size(); j++)
+        for (int j = 0; j < this->cells[i].size(); j++) //zastapic MAZE_SIZE
         {
 
-            if (this->cells[i][j].getUpperWall()) {
+            if (this->cells[j][i].getUpperWall()) {
                 this->addLine(x, y, x+cellSize, y, wall);
             }
 
-            if (this->cells[i][j].getBottomWall()) {
+            if (this->cells[j][i].getBottomWall()) {
                 this->addLine(x, y+cellSize, x + cellSize, y+cellSize, wall);
             }
 
-            if (this->cells[i][j].getLeftWall()) {
+            if (this->cells[j][i].getLeftWall()) {
                 this->addLine(x, y, x, y+cellSize, wall);
             }
 
-            if (this->cells[i][j].getRightWall()) {
+            if (this->cells[j][i].getRightWall()) {
                 this->addLine(x+cellSize, y, x+cellSize, y+cellSize, wall);
             }
 
@@ -136,4 +137,8 @@ bool Maze::isInCenter(int x, int y)
     }
 
     return false;
+}
+
+Cell& Maze::getCell(int x, int y) {
+    return this->cells[x][y]; // check on out_of_range
 }
