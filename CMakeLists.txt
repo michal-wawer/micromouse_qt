@@ -44,6 +44,8 @@ set(PROJECT_SOURCES
         drive.cpp
 )
 
+qt_add_resources(PROJECT_SOURCES resources.qrc)
+
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(micromouse_qt_project
         MANUAL_FINALIZATION

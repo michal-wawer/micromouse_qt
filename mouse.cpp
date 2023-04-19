@@ -25,7 +25,7 @@ QRectF Mouse::boundingRect() const {
 }
 
 void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    QPixmap pixmap("C:\\Users\\mwawe\\Documents\\micromouse_qt_project\\robot.png");
+    QPixmap pixmap(":/resources/robot.png");
     painter->drawPixmap(5, 5, 20, 20, pixmap);
     this->setTransformOriginPoint(this->boundingRect().center());
 }

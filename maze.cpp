@@ -1,5 +1,6 @@
 #include "maze.h"
 #include <QCoreApplication>
+#include <QFile>
 
 const int MAZE_WIDTH = 480; // change to dynamic
 const int MAZE_HEIGHT = 480; // change to dynamic
@@ -7,8 +8,6 @@ const int MAZE_SIZE = 16; //sqrt(this->cells.size());
 
 Maze::Maze()
 {
-    this->setBackgroundBrush(QColor(255, 255, 250, 255));
-
     this->cells.resize(MAZE_SIZE, vector<Cell>(MAZE_SIZE));
 
     loadMazeFromFile();
@@ -18,31 +17,30 @@ Maze::Maze()
 
 void Maze::loadMazeFromFile()
 {
-    // std::string filename = "example.txt"; TODO: dynamic path to file
-    ifstream mazeFile;
-//    cout << QCoreApplication::applicationDirPath().toStdString()  << endl;
-    mazeFile.open("C:\\Users\\mwawe\\Documents\\micromouse_qt_project\\example.txt");
+    QFile mazeFile(":/resources/example.txt");
 
-//    mazeFile.open(".example.txt", ios::in);
-
-    if (!mazeFile.is_open())
-        cout << "Failed to open file\n";
+    if (!mazeFile.open(QIODevice::ReadOnly))
+        cout << "Failed to open maze file" << endl;
     else {
-        stringstream ss;
-        string line;
+        QString line;
+        QStringList list;
         string singleCellVariable;
         vector<int> cellData;
 
-        while (getline(mazeFile, line)) {
-            ss.str(line);
-            while (ss >> singleCellVariable) {
-                cellData.push_back(stoi(singleCellVariable));
+        QTextStream in(&mazeFile);
+
+        while (!in.atEnd()) {
+            line = in.readLine();
+            list = line.split(" ");
+
+            for (const QString& i : list) {
+                cellData.push_back(i.toInt());
             }
 
             this->cells[cellData.at(0)][cellData.at(1)] = (Cell(cellData));
 
             cellData.clear();
-            ss.clear();
+            list.clear();
         }
     }
 
@@ -63,7 +61,6 @@ void Maze::printMazeCells()
 
 void Maze::paintMazeWalls()
 {
-    // print 2d grid
     int cellSize = MAZE_WIDTH / MAZE_SIZE;
 
     // print red lines to show each cell

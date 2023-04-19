@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resources/example.txt</file>
+        <file>resources/robot.png</file>
+    </qresource>
+</RCC>
