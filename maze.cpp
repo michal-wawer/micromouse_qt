@@ -1,4 +1,5 @@
 #include "maze.h"
+#include <QCoreApplication>
 
 const int MAZE_WIDTH = 480; // change to dynamic
 const int MAZE_HEIGHT = 480; // change to dynamic
@@ -19,7 +20,10 @@ void Maze::loadMazeFromFile()
 {
     // std::string filename = "example.txt"; TODO: dynamic path to file
     ifstream mazeFile;
+//    cout << QCoreApplication::applicationDirPath().toStdString()  << endl;
     mazeFile.open("C:\\Users\\mwawe\\Documents\\micromouse_qt_project\\example.txt");
+
+//    mazeFile.open(".example.txt", ios::in);
 
     if (!mazeFile.is_open())
         cout << "Failed to open file\n";
@@ -28,25 +32,17 @@ void Maze::loadMazeFromFile()
         string line;
         string singleCellVariable;
         vector<int> cellData;
-        int i = 0;
-        int j = 0;
+
         while (getline(mazeFile, line)) {
             ss.str(line);
             while (ss >> singleCellVariable) {
                 cellData.push_back(stoi(singleCellVariable));
             }
 
-            this->cells[i][j] = (Cell(cellData));
+            this->cells[cellData.at(0)][cellData.at(1)] = (Cell(cellData));
 
             cellData.clear();
             ss.clear();
-
-            j++;
-            if (j % (MAZE_SIZE) == 0) {
-                i++;
-                j = 0;
-            }
-
         }
     }
 
@@ -59,7 +55,7 @@ void Maze::printMazeCells()
     {
         for (int j = 0; j < this->cells[i].size(); j++)
         {
-            cout << this->cells[i][j].toString() << " ";
+            cout << this->cells[j][i].toString() << " ";
         }
         cout << endl;
     }
@@ -68,17 +64,17 @@ void Maze::printMazeCells()
 void Maze::paintMazeWalls()
 {
     // print 2d grid
-    int cellSize = MAZE_WIDTH / MAZE_SIZE; // rozmiar jednego kwadratu
-    for (int x=cellSize; x<MAZE_WIDTH; x+=cellSize)
-        this->addLine(x, 0, x, MAZE_HEIGHT, QPen(Qt::red));
+    int cellSize = MAZE_WIDTH / MAZE_SIZE;
 
-    for (int y=cellSize; y<MAZE_HEIGHT; y+=cellSize)
-        this->addLine(0, y, MAZE_WIDTH, y, QPen(Qt::red)); // xSART, ySTART, xEND, yEND
+    // print red lines to show each cell
+//    for (int x=cellSize; x<MAZE_WIDTH; x+=cellSize)
+//        this->addLine(x, 0, x, MAZE_HEIGHT, QPen(Qt::red));
 
-    this->addLine(0, 0, MAZE_WIDTH, 0, QPen(Qt::black));
-    this->addLine(0, 0, 0, MAZE_HEIGHT, QPen(Qt::black));
-    this->addLine(0, MAZE_HEIGHT, MAZE_WIDTH, MAZE_HEIGHT, QPen(Qt::black));
-    this->addLine(MAZE_WIDTH, 0, MAZE_WIDTH, MAZE_HEIGHT, QPen(Qt::black));
+//    for (int y=cellSize; y<MAZE_HEIGHT; y+=cellSize)
+//        this->addLine(0, y, MAZE_WIDTH, y, QPen(Qt::red));
+
+    // print green circle at the center of maze
+    this->addEllipse(230, 230, 20, 20, QPen(Qt::green), QBrush(Qt::green));
 
     int x = 0;
     int y = 0;
@@ -90,24 +86,23 @@ void Maze::paintMazeWalls()
         for (int j = 0; j < this->cells[i].size(); j++)
         {
 
-            if (this->cells[i][j].getUpperWall()) {
+            if (this->cells[j][i].getUpperWall()) {
                 this->addLine(x, y, x+cellSize, y, wall);
             }
 
-            if (this->cells[i][j].getBottomWall()) {
+            if (this->cells[j][i].getBottomWall()) {
                 this->addLine(x, y+cellSize, x + cellSize, y+cellSize, wall);
             }
 
-            if (this->cells[i][j].getLeftWall()) {
+            if (this->cells[j][i].getLeftWall()) {
                 this->addLine(x, y, x, y+cellSize, wall);
             }
 
-            if (this->cells[i][j].getRightWall()) {
+            if (this->cells[j][i].getRightWall()) {
                 this->addLine(x+cellSize, y, x+cellSize, y+cellSize, wall);
             }
 
             x += cellSize;
-
         }
 
         x = 0;
@@ -122,18 +117,20 @@ vector<vector<Cell>> Maze::getCells()
 
 bool Maze::isInCenter(int x, int y)
 {
-//    int upperCenterPoint = MAZE_SIZE / 2;
-//    int lowerCenterPoint = upperCenterPoint--;
+    int upperCenterPoint = MAZE_SIZE / 2;
+    int lowerCenterPoint = upperCenterPoint-1;
 
-    int x_min = 7;
-    int x_max = 8;
-    int y_min = 7;
-    int y_max = 8;
-
-    if (x >= x_min && x <= x_max
-            && y >= y_min &&  y <= y_max) {
+    if (x >= lowerCenterPoint && x <= upperCenterPoint
+            && y >= lowerCenterPoint &&  y <= upperCenterPoint) {
         return true;
     }
 
     return false;
+}
+
+Cell* Maze::getCell(int x, int y) {
+    if (x >= 0 && x < MAZE_SIZE && y >= 0 && y < MAZE_SIZE)
+        return &this->cells[x][y];
+    else
+        throw new out_of_range("Index out of range");
 }

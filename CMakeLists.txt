@@ -33,6 +33,15 @@ set(PROJECT_SOURCES
         directions.cpp
         controller.h
         controller.cpp
+        sensor.h
+        frontsensor.h
+        frontsensor.cpp
+        rightsensor.h
+        rightsensor.cpp
+        leftsensor.h
+        leftsensor.cpp
+        drive.h
+        drive.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

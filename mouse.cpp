@@ -8,14 +8,16 @@ using namespace std;
 
 Mouse::Mouse(Maze* maze, QGraphicsItem* parent) : QObject(), QGraphicsItem(parent)
 {
-   //setFlag(QGraphicsItem::ItemIsFocusable);
     this->maze = maze;
     // TODO: walidacja zeby nie przeszlo poza pole
     this->x = 0; // column
     this->y = 0; // row
     this->direction = Direction::RIGHT;
     this->currentRotation = 0;
-    this->currentCell = this->maze->getCells()[0][0];
+    this->leftSensor = new LeftSensor(this->maze->getCell(0, 0), this->direction);
+    this->rightSensor = new RightSensor(this->maze->getCell(0, 0), this->direction);
+    this->frontSensor = new FrontSensor(this->maze->getCell(0, 0), this->direction);
+    this->drive = new Drive();
 }
 
 QRectF Mouse::boundingRect() const {
@@ -30,28 +32,19 @@ void Mouse::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
 QPropertyAnimation* Mouse::moveForward() {
     cout << "x:" << this->x << " y:" << this->y << " rotation:" << to_string(this->currentRotation) << endl;
+
     QPropertyAnimation* animation = new QPropertyAnimation(this, "pos");
     animation->setDuration(this->speed);
     animation->setStartValue(QPointF(this->x * 30, this->y * 30));
 
-    switch(this->direction) {
-        case Direction::UPPER:
-            this->y--; // -1 row
-            break;
-        case Direction::RIGHT:
-            this->x++; // +1 column
-            break;
-        case Direction::BOTTOM:
-            this->y++; // +1 row
-            break;
-        case Direction::LEFT:
-            this->x--; // -1 column
-            break;
-    }
+    this->drive->moveForward(this->x, this->y, this->direction);
 
     animation->setEndValue(QPointF(this->x * 30, this->y * 30));
 
-    this->currentCell = this->maze->getCells()[this->y][this->x];
+//    TODO: tu sa zamienione indeksy
+    this->leftSensor->updatePositionAfterMove(this->maze->getCell(this->x, this->y), this->direction);
+    this->rightSensor->updatePositionAfterMove(this->maze->getCell(this->x, this->y), this->direction);
+    this->frontSensor->updatePositionAfterMove(this->maze->getCell(this->x, this->y), this->direction);
 
     return animation;
 }
@@ -60,11 +53,10 @@ QPropertyAnimation* Mouse::turnRight() {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
     animation->setDuration(this->speed);
     animation->setStartValue(this->currentRotation);
-    this->currentRotation += 90.0;
+
+    this->drive->turnRight(this->currentRotation, this->direction);
+
     animation->setEndValue(this->currentRotation);
-
-    this->direction = rotateRightMap.at(this->direction);
-
     return animation;
 }
 
@@ -72,11 +64,10 @@ QPropertyAnimation* Mouse::turnLeft() {
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
     animation->setDuration(this->speed);
     animation->setStartValue(this->currentRotation);
-    this->currentRotation -= 90.0;
+
+    this->drive->turnLeft(this->currentRotation, this->direction);
+
     animation->setEndValue(this->currentRotation);
-
-    this->direction = rotateLeftMap.at(this->direction);
-
     return animation;
 }
 
@@ -85,102 +76,34 @@ QPropertyAnimation* Mouse::turnBack()
     QPropertyAnimation *animation = new QPropertyAnimation(this, "rotation");
     animation->setDuration(this->speed * 2);
     animation->setStartValue(this->currentRotation);
-    this->currentRotation -= 180.0;
+
+    this->drive->turnBack(this->currentRotation, this->direction);
+
     animation->setEndValue(this->currentRotation);
-
-    this->direction = rotateBackMap.at(this->direction);
-
     return animation;
 }
 
 bool Mouse::isWallOnFront()
 {
-    switch(this->direction) {
-        case Direction::UPPER:
-            return this->currentCell.getUpperWall();
-            break;
-        case Direction::RIGHT:
-            return this->currentCell.getRightWall();
-            break;
-        case Direction::BOTTOM:
-            return this->currentCell.getBottomWall();
-            break;
-        case Direction::LEFT:;
-            return this->currentCell.getLeftWall();
-            break;
-    }
-
-    return true;
+    return this->frontSensor->checkWall();
 }
 
 bool Mouse::isWallOnLeft()
 {
-    switch(this->direction) {
-        case Direction::UPPER:
-            return this->currentCell.getLeftWall();
-            break;
-        case Direction::RIGHT:
-            return this->currentCell.getUpperWall();
-            break;
-        case Direction::BOTTOM:
-            return this->currentCell.getRightWall();
-            break;
-        case Direction::LEFT:
-            return this->currentCell.getBottomWall();
-            break;
-    }
-
-    return true;
+    return this->leftSensor->checkWall();
 }
 
 bool Mouse::isWallOnRight()
 {
-    switch(this->direction) {
-        case Direction::UPPER:
-            return this->currentCell.getRightWall();
-            break;
-        case Direction::RIGHT:
-            return this->currentCell.getBottomWall();
-            break;
-        case Direction::BOTTOM:
-            return this->currentCell.getLeftWall();
-            break;
-        case Direction::LEFT:
-            return this->currentCell.getUpperWall();
-            break;
-    }
-
-    return true;
+    return this->rightSensor->checkWall();
 }
 
-vector<Direction> Mouse::possibleDirections()
+bool Mouse::isFinished()
 {
-    vector<Direction> result;
-
-    if (this->currentCell.getUpperWall()) {
-        result.push_back(Direction::UPPER);
-    }
-
-    if (this->currentCell.getBottomWall()) {
-        result.push_back(Direction::BOTTOM);
-    }
-
-    if (this->currentCell.getRightWall()) {
-        result.push_back(Direction::RIGHT);
-    }
-
-    if (this->currentCell.getLeftWall()) {
-        result.push_back(Direction::LEFT);
-    }
-    return result;
+    return this->maze->isInCenter(this->x, this->y);
 }
 
- bool Mouse::isFinished()
- {
-     return this->maze->isInCenter(this->x, this->y);
- }
-
- void Mouse::setSpeed(int speed)
- {
-     this->speed = speed;
- }
+void Mouse::setSpeed(int speed)
+{
+    this->speed = speed;
+}

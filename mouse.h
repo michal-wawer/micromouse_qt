@@ -3,6 +3,10 @@
 
 #include "directions.h"
 #include "maze.h"
+#include "leftsensor.h"
+#include "frontsensor.h"
+#include "rightsensor.h"
+#include "drive.h"
 #include <QPropertyAnimation>
 #include <QGraphicsItem>
 
@@ -37,6 +41,10 @@ private:
     int currentRotation;
     Cell currentCell;
     int speed;
+    LeftSensor* leftSensor;
+    RightSensor* rightSensor;
+    FrontSensor* frontSensor;
+    Drive* drive;
 };
 
 #endif // MOUSE_H

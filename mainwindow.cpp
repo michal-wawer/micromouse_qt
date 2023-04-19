@@ -17,6 +17,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     this->simulationController = Controller();
     ui->mazeView->setScene(simulationController.getMaze());
+
+    // disable moving maze window when mouse moves
+    ui->mazeView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->mazeView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+    // set default values for controller
     this->changeAlgo(ui->algoComboBox->currentIndex());
     this->changeSpeed(ui->speedSlider->value());
 

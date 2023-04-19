@@ -3,7 +3,6 @@
 Controller::Controller()
 {
     this->maze = new Maze();
-
     this->mouse = new Mouse(maze);
     this->maze->addItem(this->mouse);
 }

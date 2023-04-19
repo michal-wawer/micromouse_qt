@@ -21,7 +21,7 @@ int Cell::getY() {
 
 string Cell::toString()
 {
-    return '[' + to_string(this->x) + ", " + to_string(this->y)  + "](";
+    return '[' + to_string(this->x) + ", " + to_string(this->y)  + "]";
 }
 
 bool Cell::getUpperWall()
