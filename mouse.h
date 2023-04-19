@@ -13,7 +13,7 @@
 class Mouse : public QObject, public QGraphicsItem
 {
     Q_OBJECT
-    Q_PROPERTY(QPointF pos READ pos WRITE setPos ) // moze trzeba dodac funkcje setPos NOTIFY posChanged
+    Q_PROPERTY(QPointF pos READ pos WRITE setPos ) // NOTIFY posChanged
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation ) // NOTIFY rotationChanged
 
 public:
@@ -26,8 +26,8 @@ public:
     bool isWallOnLeft();
     bool isWallOnRight();
     bool isFinished();
-    vector<Direction> possibleDirections();
     void setSpeed(int speed);
+    bool checkForInfLoop();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -45,6 +45,7 @@ private:
     RightSensor* rightSensor;
     FrontSensor* frontSensor;
     Drive* drive;
+    int movesCount;
 };
 
 #endif // MOUSE_H

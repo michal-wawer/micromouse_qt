@@ -14,26 +14,6 @@ enum class Direction
     LEFT
 };
 
-//ostream& operator<<(std::ostream& os, const Direction direction)
-//{
-//  switch(direction)
-//  {
-//    case Direction::UPPER:
-//        os << "UPPER";
-//        break;
-//    case Direction::RIGHT:
-//        os << "RIGHT";
-//        break;
-//    case Direction::BOTTOM:
-//        os << "BOTTOM";
-//        break;
-//    case Direction::LEFT:
-//        os << "LEFT";
-//        break;
-//  }
-//  return os;
-//}
-
 const map<Direction, Direction> rotateLeftMap = {
     {Direction::UPPER, Direction::LEFT},
     {Direction::RIGHT, Direction::UPPER},

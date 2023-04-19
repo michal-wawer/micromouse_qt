@@ -6,8 +6,7 @@
 class LeftHandRule : public Algorythm
 {
 public:
-    LeftHandRule();
-    void run(Mouse* mouse);
+    void run(Mouse* mouse) override;
 };
 
 #endif // LEFTHANDRULE_H

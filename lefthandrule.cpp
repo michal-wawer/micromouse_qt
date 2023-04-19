@@ -1,17 +1,15 @@
 #include "lefthandrule.h"
 #include <QSequentialAnimationGroup>
 
-LeftHandRule::LeftHandRule()
-{
-
-}
-
 void LeftHandRule::run(Mouse* mouse)
 {
     QSequentialAnimationGroup *group = new QSequentialAnimationGroup;
 
-//    for (int i = 0; i < 115; i++) {
     while (!mouse->isFinished()) {
+        if (mouse->checkForInfLoop()) {
+            cout << "Infinite loop - maze can't be solved" << endl;
+            break;
+        }
         if (!mouse->isWallOnLeft()) {
             group->addAnimation(mouse->turnLeft());
         } else {

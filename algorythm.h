@@ -11,9 +11,9 @@ enum ALGORYTHM_TYPE {
 class Algorythm
 {
 public:
-    Algorythm();
+    Algorythm() {};
     virtual void run(Mouse* mouse) = 0;
-    ~Algorythm() {}; // destruktory w innych klasach
+    ~Algorythm() {};
 };
 
 #endif // ALGORYTHM_H

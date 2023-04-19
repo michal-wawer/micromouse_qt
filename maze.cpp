@@ -2,9 +2,9 @@
 #include <QCoreApplication>
 #include <QFile>
 
-const int MAZE_WIDTH = 480; // change to dynamic
-const int MAZE_HEIGHT = 480; // change to dynamic
-const int MAZE_SIZE = 16; //sqrt(this->cells.size());
+const int MAZE_WIDTH = 480;
+const int MAZE_HEIGHT = 480;
+const int MAZE_SIZE = 16;
 
 Maze::Maze()
 {
@@ -105,11 +105,6 @@ void Maze::paintMazeWalls()
         x = 0;
         y += cellSize;
     }
-}
-
-vector<vector<Cell>> Maze::getCells()
-{
-    return this->cells;
 }
 
 bool Maze::isInCenter(int x, int y)

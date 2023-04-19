@@ -1,17 +1,15 @@
 #include "righthandrule.h"
 #include <QSequentialAnimationGroup>
 
-RightHandRule::RightHandRule()
-{
-
-}
-
 void RightHandRule::run(Mouse* mouse)
 {
     QSequentialAnimationGroup *group = new QSequentialAnimationGroup;
 
-//    for (int i = 0; i < 110; i++) {
     while (!mouse->isFinished()) {
+        if (mouse->checkForInfLoop()) {
+            cout << "Infinite loop - maze can't be solved" << endl;
+            break;
+        }
         if (!mouse->isWallOnRight()) {
             group->addAnimation(mouse->turnRight());
         } else {
@@ -24,9 +22,9 @@ void RightHandRule::run(Mouse* mouse)
                     group->addAnimation(mouse->turnBack());
                 }
             }
-        } // TODO: dodac checka na wyjscie poza plansze
+        }
         group->addAnimation(mouse->moveForward());
     }
 
-    group->start(); // to odpalac od razu po dodaniu pierwszej animacji
+    group->start();
 }

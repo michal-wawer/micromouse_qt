@@ -24,13 +24,11 @@ set(PROJECT_SOURCES
         mouse.h
         mouse.cpp
         algorythm.h
-        algorythm.cpp
         righthandrule.h
         righthandrule.cpp
         lefthandrule.h
         lefthandrule.cpp
         directions.h
-        directions.cpp
         controller.h
         controller.cpp
         sensor.h
