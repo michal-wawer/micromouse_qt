@@ -23,7 +23,10 @@ private:
     void resetMouse();
 
 public slots:
+    /// Change value selcted in combo box.
     void changeAlgo(int index);
+
+    /// Change speed selected in slider.
     void changeSpeed(int speed);
 };
 #endif // MAINWINDOW_H

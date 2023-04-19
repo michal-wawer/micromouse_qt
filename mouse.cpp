@@ -43,9 +43,10 @@ QPropertyAnimation* Mouse::moveForward() {
 
     animation->setEndValue(QPointF(this->x * 30, this->y * 30));
 
-    this->leftSensor->updatePositionAfterMove(this->maze->getCell(this->x, this->y), this->direction);
-    this->rightSensor->updatePositionAfterMove(this->maze->getCell(this->x, this->y), this->direction);
-    this->frontSensor->updatePositionAfterMove(this->maze->getCell(this->x, this->y), this->direction);
+    Cell* currentCell = this->maze->getCell(this->x, this->y);
+    this->leftSensor->updatePositionAfterMove(currentCell, this->direction);
+    this->rightSensor->updatePositionAfterMove(currentCell, this->direction);
+    this->frontSensor->updatePositionAfterMove(currentCell, this->direction);
     this->movesCount++;
 
     return animation;
@@ -116,4 +117,8 @@ bool Mouse::checkForInfLoop() {
     }
 
     return false;
+}
+
+Direction Mouse::getDirection() {
+    return this->direction;
 }

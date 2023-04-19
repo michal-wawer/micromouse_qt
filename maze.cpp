@@ -15,6 +15,7 @@ Maze::Maze()
     paintMazeWalls();
 }
 
+
 void Maze::loadMazeFromFile()
 {
     QFile mazeFile(":/resources/example.txt");

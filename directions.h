@@ -6,6 +6,7 @@
 
 using namespace std;
 
+/// Describe possible movement directions.
 enum class Direction
 {
     UPPER,
@@ -14,6 +15,7 @@ enum class Direction
     LEFT
 };
 
+/// Map directions after 90 degree rotation to left side.
 const map<Direction, Direction> rotateLeftMap = {
     {Direction::UPPER, Direction::LEFT},
     {Direction::RIGHT, Direction::UPPER},
@@ -21,6 +23,7 @@ const map<Direction, Direction> rotateLeftMap = {
     {Direction::LEFT, Direction::BOTTOM},
 };
 
+/// Map directions after 90 degree rotation to right side.
 const map<Direction, Direction> rotateRightMap = {
     {Direction::UPPER, Direction::RIGHT},
     {Direction::RIGHT, Direction::BOTTOM},
@@ -28,6 +31,7 @@ const map<Direction, Direction> rotateRightMap = {
     {Direction::LEFT, Direction::UPPER},
 };
 
+/// Map directions after 180 degree rotation.
 const map<Direction, Direction> rotateBackMap = {
     {Direction::UPPER, Direction::BOTTOM},
     {Direction::RIGHT, Direction::LEFT},

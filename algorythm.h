@@ -8,11 +8,16 @@ enum ALGORYTHM_TYPE {
     LEFT_HAND
 };
 
+/// Abstract class for implementing algorithms to solve the maze.
 class Algorythm
 {
 public:
     Algorythm() {};
+
+    /// \brief Method for implementation of specific algorithm.
+    /// \param mouse Current mouse visible on the maze.
     virtual void run(Mouse* mouse) = 0;
+
     ~Algorythm() {};
 };
 

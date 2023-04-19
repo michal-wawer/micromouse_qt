@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->algoComboBox->addItems({"Left", "Right", "FloodFill"});
+    ui->algoComboBox->addItems({"Left", "Right"});
     ui->algoComboBox->setCurrentIndex(0);
 
     this->simulationController = Controller();
@@ -52,10 +52,6 @@ void MainWindow::changeAlgo(int index)
 
         case 1:
             this->simulationController.setAlgorythm(ALGORYTHM_TYPE::RIGHT_HAND);
-            break;
-
-        case 2:
-
             break;
     }
 }

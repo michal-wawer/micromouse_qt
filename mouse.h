@@ -28,7 +28,7 @@ public:
     bool isFinished();
     void setSpeed(int speed);
     bool checkForInfLoop();
-
+    Direction getDirection();
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
